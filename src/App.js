@@ -21,6 +21,41 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
 
+  constructor() {
+    super();
+    this.moveToShelf = this.moveToShelf.bind(this)
+  }
+
+  moveToShelf(destinationShelf, book) {
+    const originalShelf = book.shelf;
+    let shelves = this.state.shelves;
+    let books = this.state.books;
+
+    // remove from the original shelf
+    if (originalShelf !== 'none') {
+      const newBookCollection = shelves[originalShelf].books.filter(_book => _book !== book);
+      shelves[originalShelf].books = newBookCollection;
+    } else {
+      books.push(book);
+    }
+
+    // add to destination shelf
+    if (destinationShelf != 'none') {
+      shelves[destinationShelf].books.push(book);
+    } else {
+      const newBooksCollection = books.filter(_book => _book !== book);
+      books = newBooksCollection;
+    }
+
+    // update book shelf property
+    book.shelf = destinationShelf;
+
+    this.setState({
+      'shelves': shelves,
+      'books': books
+    });
+  }
+
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       let shelves = this.state.shelves;
@@ -65,7 +100,10 @@ class BooksApp extends React.Component {
               <div>
                 {
                   Object.keys(this.state.shelves).map(key => (
-                      <Shelf key={key} data={this.state.shelves[key]} />
+                      <Shelf
+                          key={key}
+                          data={this.state.shelves[key]}
+                          moveBookFunction={this.moveToShelf} />
                   ))
                 }
               </div>

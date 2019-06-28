@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 class Book extends Component {
 
     render() {
-        let data = this.props.data;
+        let book = this.props.data;
+        let moveFunction = this.props.moveBookFunction;
 
         return (
             <div className="book">
@@ -11,10 +12,10 @@ class Book extends Component {
                     <div className="book-cover" style={{
                         width: 128,
                         height: 193,
-                        backgroundImage: `url(${data.imageLinks.smallThumbnail})`
+                        backgroundImage: `url(${book.imageLinks.smallThumbnail})`
                     }}></div>
                     <div className="book-shelf-changer">
-                        <select value={data.shelf}>
+                        <select value={book.shelf} onChange={ (element) => { moveFunction(element.target.value, book) }}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
@@ -23,8 +24,8 @@ class Book extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{ data.title }</div>
-                <div className="book-authors">{ data.authors.join(', ') }</div>
+                <div className="book-title">{ book.title }</div>
+                <div className="book-authors">{ book.authors.join(', ') }</div>
             </div>
         )
     }
