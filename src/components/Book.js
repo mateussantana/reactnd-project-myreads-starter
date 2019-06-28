@@ -6,6 +6,9 @@ class Book extends Component {
         let book = this.props.data;
         let moveFunction = this.props.moveBookFunction;
 
+        if (!book.authors) book.authors = [];
+        if (!book.imageLinks.smallThumbnail) book.imageLinks.smallThumbnail = '';
+
         return (
             <div className="book">
                 <div className="book-top">
