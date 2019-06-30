@@ -28,7 +28,7 @@ class BooksApp extends React.Component {
 
     // remove from the original shelf
     if (originalShelf !== 'none') {
-      const newBookCollection = shelves[originalShelf].books.filter(_book => _book !== book);
+      const newBookCollection = shelves[originalShelf].books.filter(_book => _book.id !== book.id);
       shelves[originalShelf].books = newBookCollection;
     } else {
       books.push(book);
@@ -38,12 +38,13 @@ class BooksApp extends React.Component {
     if (destinationShelf !== 'none') {
       shelves[destinationShelf].books.push(book);
     } else {
-      const newBooksCollection = books.filter(_book => _book !== book);
+      const newBooksCollection = books.filter(_book => _book.id !== book.id);
       books = newBooksCollection;
     }
 
     // update book shelf property
     book.shelf = destinationShelf;
+    BooksAPI.update(book, destinationShelf);
 
     this.setState({
       'shelves': shelves,

@@ -17,11 +17,12 @@ class Search extends Component {
                     // compare with local book collection
                     const myBooks = this.state.myBooks;
                     books.map(book => {
-                        myBooks.map(myBook => {
+                        return myBooks.map(myBook => {
                             if (book.id === myBook.id)
                                 book.shelf = myBook.shelf;
                             else if (!book.shelf)
                                 book.shelf = "none";
+                            return book;
                         });
                     });
                     this.setState({searchBooks: books});
@@ -42,6 +43,7 @@ class Search extends Component {
 
     componentDidMount() {
         this.setState({ 'myBooks': this.props.bookCollection });
+        document.getElementById('input-search').focus();
     }
 
     render() {
@@ -50,7 +52,8 @@ class Search extends Component {
                 <div className="search-books-bar">
                     <Link className="close-search" to='/'>Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" onChange={(event) => { this.search(event.target.value) }} />
+                        <input id="input-search" type="text" placeholder="Search by title or author"
+                               onChange={(event) => { this.search(event.target.value) }} />
                     </div>
                 </div>
                 <div className="search-books-results">
