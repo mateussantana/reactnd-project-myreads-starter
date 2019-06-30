@@ -6,8 +6,8 @@ class Book extends Component {
         let book = this.props.data;
         let moveFunction = this.props.moveBookFunction;
 
-        if (!book.authors) book.authors = [];
-        if (!book.imageLinks.smallThumbnail) book.imageLinks.smallThumbnail = '';
+        const authors = book.authors ? book.authors.join(', ') : [];
+        const imageLink = book.imageLinks ? book.imageLinks.smallThumbnail : '';
 
         return (
             <div className="book">
@@ -15,7 +15,7 @@ class Book extends Component {
                     <div className="book-cover" style={{
                         width: 128,
                         height: 193,
-                        backgroundImage: `url(${book.imageLinks.smallThumbnail})`
+                        backgroundImage: `url(${imageLink})`
                     }}></div>
                     <div className="book-shelf-changer">
                         <select value={book.shelf} onChange={ (element) => { moveFunction(element.target.value, book) }}>
@@ -28,7 +28,7 @@ class Book extends Component {
                     </div>
                 </div>
                 <div className="book-title">{ book.title }</div>
-                <div className="book-authors">{ book.authors.join(', ') }</div>
+                <div className="book-authors">{ authors }</div>
             </div>
         )
     }

@@ -14,17 +14,30 @@ class Search extends Component {
         if (query.trim() !== '') {
             BooksAPI.search(query).then(books => {
                 if (!books.error) {
+                    // compare with local book collection
+                    const myBooks = this.state.myBooks;
+                    books.map(book => {
+                        myBooks.map(myBook => {
+                            if (book.id === myBook.id)
+                                book.shelf = myBook.shelf;
+                            else if (!book.shelf)
+                                book.shelf = "none";
+                        });
+                    });
                     this.setState({searchBooks: books});
                     document.getElementById('no-results').style.display = 'none';
                 } else {
-                    this.setState({searchBooks: []});
-                    document.getElementById('no-results').style.display = 'block';
+                    this.clearSearch();
                 }
             });
         } else {
-            this.setState({ searchBooks: [] });
-            document.getElementById('no-results').style.display = 'block';
+            this.clearSearch();
         }
+    }
+
+    clearSearch() {
+        this.setState({ searchBooks: [] });
+        document.getElementById('no-results').style.display = 'block';
     }
 
     componentDidMount() {
