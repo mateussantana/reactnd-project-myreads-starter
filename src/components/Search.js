@@ -41,7 +41,7 @@ class Search extends Component {
     }
 
     componentDidMount() {
-        this.setState({ 'myBooks': this.props.bookCollection });
+        this.setState({ myBooks: this.props.bookCollection });
         document.getElementById('input-search').focus();
     }
 

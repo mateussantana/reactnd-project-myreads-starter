@@ -23,8 +23,8 @@ class BooksApp extends React.Component {
 
   moveToShelf(destinationShelf, book) {
     const originalShelf = book.shelf;
-    let shelves = this.state.shelves;
-    let books = this.state.books;
+    let shelves = Object.assign([], this.state.shelves);
+    let books = Object.assign([], this.state.books);
 
     // remove from the original shelf
     if (originalShelf !== 'none') {
@@ -45,21 +45,16 @@ class BooksApp extends React.Component {
     // update book shelf property
     book.shelf = destinationShelf;
     BooksAPI.update(book, destinationShelf);
-
-    this.setState({
-      'shelves': shelves,
-      'books': books
-    });
+    this.setState({ shelves, books });
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      let shelves = this.state.shelves;
+      let shelves = Object.assign([], this.state.shelves);
       books.forEach(book => {
         shelves[book.shelf].books.push(book);
       });
-      this.setState({ books });
-      this.setState({ shelves });
+      this.setState({ books, shelves });
     });
   }
 
@@ -89,7 +84,6 @@ class BooksApp extends React.Component {
               </div>
             </div>
         )} />
-
 
         <Route path='/search' render={() => (
             <Search
