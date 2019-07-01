@@ -26,7 +26,6 @@ class Search extends Component {
                         });
                     });
                     this.setState({searchBooks: books});
-                    document.getElementById('no-results').style.display = 'none';
                 } else {
                     this.clearSearch();
                 }
@@ -38,7 +37,6 @@ class Search extends Component {
 
     clearSearch() {
         this.setState({ searchBooks: [] });
-        document.getElementById('no-results').style.display = 'block';
     }
 
     componentDidMount() {
@@ -66,9 +64,11 @@ class Search extends Component {
                             </li>
                         )) }
                     </ol>
-                    <div id="no-results" style={{textAlign: 'center'}}>
-                        <i>no results</i>
-                    </div>
+                    { this.state.searchBooks.length === 0 && (
+                        <div id="no-results" style={{textAlign: 'center'}}>
+                            <i>no results</i>
+                        </div>
+                    ) }
                 </div>
             </div>
         )

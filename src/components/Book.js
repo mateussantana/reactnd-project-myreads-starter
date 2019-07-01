@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent} from 'react'
 
-class Book extends Component {
+class Book extends PureComponent {
 
     render() {
         let book = this.props.data;
